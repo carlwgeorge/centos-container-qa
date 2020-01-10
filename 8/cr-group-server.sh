@@ -4,7 +4,8 @@
 #
 # start: 8.0
 # end: 8 CR
-# group: server
+# groups: server
+# extra packages: none
 
 ###############
 # shell setup #
@@ -31,9 +32,11 @@ set -x
 CONTAINER=$(buildah from --pull-always centos:8)
 buildah run $CONTAINER -- dnf --assumeyes update
 
-# install group
+# install groups
 buildah run $CONTAINER -- dnf --assumeyes swap coreutils-single coreutils
 buildah run $CONTAINER -- dnf --assumeyes group install server
+
+# install packages
 
 # enable CR
 buildah run $CONTAINER -- dnf --assumeyes install dnf-plugins-core
@@ -58,7 +61,7 @@ set +x
 
 cat << EOF
 
-Build complete.  To run image for inspection, run this command:
+Build complete.  Run this command to start a container based on the image:
 
     podman run -it --rm centos-qa:$TAG
 

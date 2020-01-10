@@ -4,7 +4,8 @@
 #
 # start: 8.0
 # end: 8 Stream
-# group: none
+# groups: none
+# extra packages: none
 
 ###############
 # shell setup #
@@ -31,6 +32,10 @@ set -x
 CONTAINER=$(buildah from --pull-always centos:8)
 buildah run $CONTAINER -- dnf --assumeyes update
 
+# install groups
+
+# install packages
+
 # switch to stream
 buildah run $CONTAINER -- dnf --assumeyes install dnf-plugins-core centos-release-stream
 buildah run $CONTAINER -- dnf config-manager --disable BaseOS --disable AppStream --disable extras
@@ -54,7 +59,7 @@ set +x
 
 cat << EOF
 
-Build complete.  To run image for inspection, run this command:
+Build complete.  Run this command to start a container based on the image:
 
     podman run -it --rm centos-qa:$TAG
 
